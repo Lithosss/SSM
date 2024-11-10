@@ -2,8 +2,6 @@ package cn.jx.jjvu.ssm.web.controller;
 
 import cn.jx.jjvu.ssm.domain.RequestDTO;
 import cn.jx.jjvu.ssm.domain.Result;
-import cn.jx.jjvu.ssm.domain.entity.Sys_Info;
-import cn.jx.jjvu.ssm.domain.entity.Sys_Menu;
 import cn.jx.jjvu.ssm.domain.entity.Sys_Per;
 import cn.jx.jjvu.ssm.service.PerService;
 import org.springframework.beans.factory.annotation.Autowired;

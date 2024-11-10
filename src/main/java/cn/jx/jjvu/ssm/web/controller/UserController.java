@@ -6,14 +6,10 @@ import cn.jx.jjvu.ssm.domain.VO.AuthUserVO;
 import cn.jx.jjvu.ssm.domain.entity.Sys_User;
 import cn.jx.jjvu.ssm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 

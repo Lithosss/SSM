@@ -4,7 +4,6 @@ import cn.jx.jjvu.ssm.domain.LoginUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 
 @Data
 @AllArgsConstructor
