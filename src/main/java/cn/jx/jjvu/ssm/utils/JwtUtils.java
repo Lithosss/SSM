@@ -1,30 +1,17 @@
 package cn.jx.jjvu.ssm.utils;
 
 
-import cn.jx.jjvu.ssm.domain.LoginUser;
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONWriter;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.JWTVerifier;
-
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.*;
 
-import static cn.jx.jjvu.ssm.constants.OtherConstants.TOKEN_SITE;
+
 
 @Component
 public class JwtUtils {
@@ -39,14 +26,14 @@ public class JwtUtils {
         return uuid;
     }
 
-    public static String createJWT(LoginUser user,Long ttlMillis){
-        JwtBuilder builder = getJwtBuilder(user,ttlMillis,getUUID());
+    public static String createJWT(String s,Long ttlMillis){
+        JwtBuilder builder = getJwtBuilder(s,ttlMillis,getUUID());
         return builder.compact();
     }
 
 
 
-    private static JwtBuilder getJwtBuilder(LoginUser user, Long ttlMillis, String uuid) {
+    private static JwtBuilder getJwtBuilder(String s, Long ttlMillis, String uuid) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         SecretKey secretKey =generalKey();
         long nowMillis = System.currentTimeMillis();
@@ -57,7 +44,7 @@ public class JwtUtils {
         long expMillis = nowMillis + ttlMillis;
         Date exp = new Date(expMillis);
         return Jwts.builder()
-                .setSubject(user.toString())
+                .setSubject(s.toString())
                 .signWith(signatureAlgorithm, secretKey)
                 .setExpiration(exp);
     }

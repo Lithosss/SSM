@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
@@ -46,27 +48,31 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Sys_Per> toEditRolePer(Integer roleId) {
+
         List<Role_Per> role_pers = rolePerDao.findRidAndPid(roleId);
         List<Sys_Per> sysPerList = perDao.findAllPer();
 
-        List<Sys_Per> sysPers = new ArrayList<>();
+        // 使用Map来提高查找效率
+        Map<Integer, Sys_Per> sysPerMap = new HashMap<>();
+        for (Sys_Per sysPer : sysPerList) {
+            sysPerMap.put(sysPer.getPer_id(), sysPer);
+        }
 
+        List<Sys_Per> sysPers = new ArrayList<>();
 
         for (Role_Per role_per : role_pers) {
             Integer pid = role_per.getPid();
-            for (Sys_Per sysPer : sysPerList) {
-                if (pid != null && sysPer.getParentid() == 0) {
+            if (pid != null) {
+                Sys_Per sysPer = sysPerMap.get(pid);
+                if (sysPer != null) {
                     sysPer.setChecked("1");
                 }
-                Integer per_id = sysPer.getPer_id();
-                if (per_id.equals(pid)) {
-                    sysPer.setChecked("1");
-                }
-
             }
-
         }
-        sysPers.addAll(sysPerList);
+        for (Sys_Per sysPer : sysPerMap.values()) {
+            sysPers.add(sysPer);
+        }
+
         return sysPers;
 
     }

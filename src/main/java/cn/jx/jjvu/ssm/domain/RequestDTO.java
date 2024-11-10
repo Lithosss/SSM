@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestDTO {
-    private Sys_Role sysRole;
-    private Sys_Per sysPer;
+
     private Integer  id;
     private Integer[]  integerArray;
 

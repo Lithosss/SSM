@@ -37,6 +37,7 @@ public class UserController {
     public Result manageUser() {
 
         List list = userService.findAllUser();
+
         Result result = new Result();
         result.setCode(200);
         result.setMessage("成功");

@@ -1,6 +1,7 @@
 package cn.jx.jjvu.ssm.config;
 
 
+import cn.jx.jjvu.ssm.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -41,6 +43,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
 
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -63,7 +67,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("userController/login").permitAll()
+                .antMatchers("/userController/login").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/images/**").permitAll()
@@ -71,36 +75,19 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/login.html").permitAll()
                 .antMatchers("/admin/admin_index.html").permitAll()
 
-                .antMatchers("/index.html").permitAll()
+                .antMatchers("/index.html").permitAll();
 
-                .antMatchers("/pages/admin/main.jsp").permitAll()
-                .antMatchers("/pages/admin/top.jsp").permitAll()
-                .antMatchers("/pages/admin/left.jsp").permitAll()
-                .antMatchers("/pages/admin/menu.jsp").permitAll()
-
-
-                .antMatchers("/menuController/toAddMenu").permitAll()
-                .antMatchers("/menuController/addMenu").permitAll()
-                .antMatchers("/menuController/manageMenu").permitAll()
-                .antMatchers("/menuController/manageDownMenu").permitAll()
-                .antMatchers("/menuController/delMenu").permitAll()
-                .antMatchers("/menuController/toEditMenu").permitAll()
-                .antMatchers("/menuController/editMenu").permitAll()
-
-
-                .antMatchers("/pages/admin/addmenu.jsp").permitAll()
-                .antMatchers("/pages/admin/managemenu.jsp").permitAll()
-                .antMatchers("/pages/admin/managedownmenu.jsp").permitAll()
-                .antMatchers("/pages/admin/editmenu.jsp").permitAll();
+        http.headers().frameOptions().disable();
 
         http
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler);
         http.csrf().disable();
         http.cors().configurationSource(configure());
-        http.headers().frameOptions().disable();
+
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     private CorsConfigurationSource configure() {

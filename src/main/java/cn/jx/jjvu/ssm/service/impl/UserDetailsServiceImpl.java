@@ -41,7 +41,7 @@ public  class UserDetailsServiceImpl implements UserDetailsService {
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         //将角色信息封装到authorities
         List<Sys_Role> roles = roleDao.findRolesByUId(sys_user.getId());
-        System.out.println(roles);
+
         for (Sys_Role sys_role : roles) {
             authorities.add(new SimpleGrantedAuthority(sys_role.getRole_name()));
         }

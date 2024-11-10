@@ -36,10 +36,11 @@ public class RoleController {
     }
 
     @RequestMapping("/addRole")
-    public Result addRole(@RequestBody RequestDTO requestDTO) {
+    public Result addRole(@RequestBody Sys_Role sysRole) {
 
-        Sys_Role role = requestDTO.getSysRole();
-        roleService.addRole(role);
+
+        roleService.addRole(sysRole);
+
 
 
         Result result = new Result();
@@ -68,6 +69,7 @@ public class RoleController {
         Integer id = requestDTO.getId();
 
         List<Sys_Per> sysPer =roleService.toEditRolePer(id);
+
         Result result = new Result();
         result.setCode(200);
         result.setData(sysPer);

@@ -8,6 +8,7 @@ import cn.jx.jjvu.ssm.domain.VO.AuthUserVO;
 import cn.jx.jjvu.ssm.domain.entity.Sys_User;
 import cn.jx.jjvu.ssm.service.UserService;
 import cn.jx.jjvu.ssm.utils.JwtUtils;
+import com.alibaba.fastjson2.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,7 +41,10 @@ public class UserServiceImpl implements UserService {
         }
 
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        String jwt = JwtUtils.createJWT(loginUser,null);
+
+        String jsonLoginUser = JSON.toJSONString(loginUser);
+        String jwt = JwtUtils.createJWT(jsonLoginUser,null);
+
         AuthUserVO authUserVO = new AuthUserVO();
         authUserVO.setUser(loginUser);
         authUserVO.setToken(jwt);
