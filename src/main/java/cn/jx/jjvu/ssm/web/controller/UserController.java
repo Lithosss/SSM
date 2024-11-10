@@ -2,12 +2,14 @@ package cn.jx.jjvu.ssm.web.controller;
 
 
 import cn.jx.jjvu.ssm.domain.Result;
+import cn.jx.jjvu.ssm.domain.VO.AuthUserVO;
 import cn.jx.jjvu.ssm.domain.entity.Sys_User;
 import cn.jx.jjvu.ssm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,13 +25,13 @@ public class UserController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public Result login(Sys_User sysUser) {
+    public Result login(@RequestBody Sys_User sysUser) {
 
         Result result = new Result();
-        UserDetails user= userService.loadUserByUsername(sysUser.getUsername());
+        AuthUserVO authUserVO =  userService.login(sysUser);
         result.setCode(200);
         result.setMessage("success");
-        result.setData(user);
+        result.setData(authUserVO);
         return result;
 
     }

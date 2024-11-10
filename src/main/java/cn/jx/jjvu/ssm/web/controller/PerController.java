@@ -1,11 +1,13 @@
 package cn.jx.jjvu.ssm.web.controller;
 
+import cn.jx.jjvu.ssm.domain.RequestDTO;
 import cn.jx.jjvu.ssm.domain.Result;
 import cn.jx.jjvu.ssm.domain.entity.Sys_Info;
 import cn.jx.jjvu.ssm.domain.entity.Sys_Menu;
 import cn.jx.jjvu.ssm.domain.entity.Sys_Per;
 import cn.jx.jjvu.ssm.service.PerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,8 +34,8 @@ public class PerController {
 
 
     @RequestMapping("/manageDownPer")
-    public Result<List<Sys_Per>> manageDownPer(Integer id) {
-
+    public Result<List<Sys_Per>> manageDownPer(@RequestBody RequestDTO requestDTO) {
+        Integer id = requestDTO.getId();
         List<Sys_Per> list = perService.findAllDownPer(id);
         Result<List<Sys_Per>> result = new Result<>();
         result.setCode(200);
@@ -43,8 +45,8 @@ public class PerController {
         return result;
     }
     @RequestMapping("/delPer")
-    public Result<?> delPer(Integer id) {
-
+    public Result<?> delPer(@RequestBody RequestDTO requestDTO) {
+        Integer id = requestDTO.getId();
         perService.delPerById(id);
         Result<?> result = new Result<>();
         result.setCode(200);
@@ -55,12 +57,16 @@ public class PerController {
 
     @RequestMapping("/addPer")
     @ResponseBody
-    public Result addPer(Sys_Per per) {
+    public Result addPer(@RequestBody RequestDTO requestDTO) {
+        Sys_Per per = requestDTO.getSysPer();
+        per.setParentid(0);
+        System.out.println(per);
+        perService.addPer(per);
 
         Result result = new Result();
-        per.setParentid(0);
 
-        perService.addPer(per);
+
+
         result.setCode(200);
         result.setMessage("成功");
 
@@ -69,10 +75,12 @@ public class PerController {
 
 
     @RequestMapping("/addDownPer")
-    public Result addDownPer(Sys_Per sysPer) {
-        Result result = new Result();
-        perService.addDownPer(sysPer);
+    public Result addDownPer(@RequestBody RequestDTO requestDTO) {
 
+        Sys_Per per = requestDTO.getSysPer();
+        perService.addDownPer(per);
+
+        Result result = new Result();
         result.setCode(200);
         result.setMessage("成功");
 
@@ -80,10 +88,12 @@ public class PerController {
     }
 
     @RequestMapping("/toEditPer")
-    public Result toEditPer(Integer id) {
-        Result result = new Result();
+    public Result toEditPer(@RequestBody RequestDTO requestDTO) {
+
+        Integer id = requestDTO.getId();
         Sys_Per sysPer= perService.findPerById(id);
 
+        Result result = new Result();
         result.setCode(200);
         result.setMessage("success");
         result.setData(sysPer);
@@ -91,12 +101,11 @@ public class PerController {
     }
 
     @RequestMapping("/editPer")
-    public Result editPer(Sys_Per sysPer) {
+    public Result editPer(@RequestBody RequestDTO requestDTO) {
+        Sys_Per per = requestDTO.getSysPer();
+        perService.updatePer(per);
 
         Result result = new Result();
-
-        perService.updatePer(sysPer);
-
         result.setCode(200);
         result.setMessage("success");
         return result;

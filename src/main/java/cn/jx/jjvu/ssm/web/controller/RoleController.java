@@ -1,11 +1,13 @@
 package cn.jx.jjvu.ssm.web.controller;
 
 
+import cn.jx.jjvu.ssm.domain.RequestDTO;
 import cn.jx.jjvu.ssm.domain.Result;
 import cn.jx.jjvu.ssm.domain.entity.Sys_Per;
 import cn.jx.jjvu.ssm.domain.entity.Sys_Role;
 import cn.jx.jjvu.ssm.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,11 +36,13 @@ public class RoleController {
     }
 
     @RequestMapping("/addRole")
-    public Result addRole(Sys_Role role) {
+    public Result addRole(@RequestBody RequestDTO requestDTO) {
 
-        Result result = new Result();
+        Sys_Role role = requestDTO.getSysRole();
         roleService.addRole(role);
 
+
+        Result result = new Result();
         result.setCode(200);
         result.setMessage("success");
 
@@ -46,11 +50,11 @@ public class RoleController {
     }
 
     @RequestMapping("/delRole")
-    public Result delRole(Integer id) {
-
-        Result result = new Result();
+    public Result delRole(@RequestBody RequestDTO requestDTO) {
+        Integer id = requestDTO.getId();
         roleService.delRole(id);
 
+        Result result = new Result();
         result.setCode(200);
         result.setMessage("success");
 
@@ -60,19 +64,23 @@ public class RoleController {
 
 
     @RequestMapping("/toEditRolePer")
-    public Result toEditRolePer(Integer roleId) {
-       List<Sys_Per> sysPers =roleService.toEditRolePer(roleId);
+    public Result toEditRolePer(@RequestBody RequestDTO requestDTO) {
+        Integer id = requestDTO.getId();
+
+        List<Sys_Per> sysPer =roleService.toEditRolePer(id);
         Result result = new Result();
         result.setCode(200);
-        result.setData(sysPers);
+        result.setData(sysPer);
         result.setMessage("success");
         return result;
 
     }
 
     @RequestMapping("/editRolePer")
-    public Result editRolePer(Integer roleId,Integer[] perId) {
-        roleService.editRolePer(roleId,perId);
+    public Result editRolePer(@RequestBody RequestDTO requestDTO) {
+        Integer id = requestDTO.getId();
+        Integer[] idArrays = requestDTO.getIntegerArray();
+        roleService.editRolePer(id,idArrays);
         Result result = new Result();
         result.setCode(200);
         result.setMessage("success");

@@ -1,14 +1,16 @@
 package cn.jx.jjvu.ssm.service;
 
 
+import cn.jx.jjvu.ssm.domain.VO.AuthUserVO;
 import cn.jx.jjvu.ssm.domain.entity.Sys_User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Map;
 
-public interface UserService  extends UserDetailsService {
+public interface UserService  {
 
+    AuthUserVO login(Sys_User sysUser);
 
     Map addUser(Sys_User user);
 
@@ -19,6 +21,7 @@ public interface UserService  extends UserDetailsService {
     Sys_User findUserById(Integer id);
 
     Map editUser(Sys_User user);
+
 
 
 }
