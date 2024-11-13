@@ -7,6 +7,7 @@ import cn.jx.jjvu.ssm.domain.entity.Sys_Per;
 import cn.jx.jjvu.ssm.domain.entity.Sys_Role;
 import cn.jx.jjvu.ssm.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import java.util.List;
 
 
 @RequestMapping("/roleController")
+@CrossOrigin
 @RestController
 public class RoleController {
 

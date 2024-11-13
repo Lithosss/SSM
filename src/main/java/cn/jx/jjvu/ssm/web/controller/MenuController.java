@@ -27,7 +27,6 @@ public class MenuController {
     }
 
     @RequestMapping("/addMenu")
-    @ResponseBody
     public Result<Sys_Menu> addMenu(@RequestBody Sys_Menu menu) {
 
 
@@ -41,7 +40,6 @@ public class MenuController {
     }
 
     @RequestMapping("/manageMenu")
-    @ResponseBody
     public Result<List<Sys_Menu>> manageMenu() {
 
 
@@ -55,7 +53,6 @@ public class MenuController {
     }
 
     @RequestMapping("/delMenu")
-    @ResponseBody
     public Result<?> delMenu(Integer id) {
 
         menuService.delMenuById(id);
@@ -68,7 +65,6 @@ public class MenuController {
     }
 
     @RequestMapping("/toEditMenu")
-    @ResponseBody
     public Result<Sys_Menu> toEditMenu(Integer id) {
 
         Sys_Menu menu = menuService.findMenuById(id);
@@ -83,9 +79,7 @@ public class MenuController {
     }
 
     @RequestMapping("/toEditDownMenu")
-    @ResponseBody
     public Result<Sys_Menu> toEditDownMenu(@RequestBody Sys_Menu menu) {
-
 
         Sys_Menu menu1 = menuService.findDownMenuByID(menu);
 

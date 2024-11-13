@@ -6,14 +6,12 @@ import cn.jx.jjvu.ssm.domain.entity.Sys_Per;
 import cn.jx.jjvu.ssm.domain.entity.Sys_User;
 import cn.jx.jjvu.ssm.service.PerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/perController")
 public class PerController {
     @Autowired
@@ -55,7 +53,6 @@ public class PerController {
     }
 
     @RequestMapping("/addPer")
-    @ResponseBody
     public Result addPer(@RequestBody Sys_Per sysPer) {
 
 
