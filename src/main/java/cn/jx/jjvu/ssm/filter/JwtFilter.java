@@ -5,6 +5,8 @@ import cn.jx.jjvu.ssm.utils.JwtUtils;
 import com.alibaba.fastjson2.JSON;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -21,26 +23,30 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        if (uri.equals("/userController/login")) {
+        if (uri.equals("/SSM/userController/login")) {
             filterChain.doFilter(request, response);
             return;
         }
 
 
         String token = request.getHeader("Authorization");
+
         if (!StringUtils.hasLength(token)) {
             throw new RuntimeException("Authorization header is empty");
 
         }
-
+        LoginUser loginUser = null;
         try {
             Claims claims = JwtUtils.parseJWT(token);
             String jsonLoginUser = claims.getSubject();
-            JSON.parseObject(jsonLoginUser, LoginUser.class);
-            System.out.println(jsonLoginUser.toString());
+               loginUser=JSON.parseObject(jsonLoginUser, LoginUser.class);
+
         }catch (Exception e) {
             throw new RuntimeException(e);
         }
+        UsernamePasswordAuthenticationToken authenticationToken =new UsernamePasswordAuthenticationToken(loginUser,null,null);
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        filterChain.doFilter(request, response);
 
     }
 }

@@ -7,20 +7,19 @@ import cn.jx.jjvu.ssm.domain.entity.Sys_User;
 import cn.jx.jjvu.ssm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
+@CrossOrigin
 @RequestMapping("/userController")
 public class UserController {
     @Autowired
     private UserService userService;
 
     @RequestMapping("/login")
-    @ResponseBody
     public Result login(@RequestBody Sys_User sysUser) {
 
         Result result = new Result();
@@ -33,7 +32,6 @@ public class UserController {
     }
 
     @RequestMapping("/manageUser")
-    @ResponseBody
     public Result manageUser() {
 
         List list = userService.findAllUser();
@@ -47,8 +45,7 @@ public class UserController {
     }
 
     @RequestMapping("/addUser")
-    @ResponseBody
-    public Result addUser(Sys_User user) {
+    public Result addUser(@RequestBody Sys_User user,Integer roleId) {
 
         Map map = userService.addUser(user);
         Result result = new Result();
@@ -74,7 +71,6 @@ public class UserController {
     }
 
     @RequestMapping("/delUser")
-    @ResponseBody
     public Result delUser(Integer id) {
 
         userService.delUserById(id);
@@ -85,7 +81,6 @@ public class UserController {
     }
 
     @RequestMapping("/toEditUser")
-    @ResponseBody
     public Result<Sys_User> toEditUser(Integer id) {
 
         Sys_User user = userService.findUserById(id);
@@ -98,9 +93,7 @@ public class UserController {
     }
 
     @RequestMapping("/editUser")
-    @ResponseBody
     public Result<Sys_User> editUser(Sys_User user) {
-
 
         Result<Sys_User> result = new Result<>();
 
@@ -113,6 +106,8 @@ public class UserController {
             result.setMessage("修改失败");
         }
         return result;
-
     }
+
+
+
 }

@@ -8,12 +8,15 @@ import cn.jx.jjvu.ssm.service.InfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
+@CrossOrigin
 @RequestMapping("/indexController")
 public class IndexController {
     //打开主页
@@ -22,7 +25,6 @@ public class IndexController {
 
 
     @RequestMapping("/toIndex")
-    @ResponseBody
     public Result toIndex(Model model) {
 
         List<Sys_Info> info1 = infoService.findSpan1info();
@@ -37,7 +39,6 @@ public class IndexController {
 
 
     @RequestMapping("/allNews")
-    @ResponseBody
     public Result allNews(Integer id, String type) {
 
         List<Sys_Info> infos = infoService.findAllInfoByParentId(id, type);
@@ -50,7 +51,6 @@ public class IndexController {
     }
 
     @RequestMapping("/showNews")
-    @ResponseBody
     public Result showNews(Integer id) {
 
         Sys_Info info = infoService.findInfoById(id);

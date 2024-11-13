@@ -75,7 +75,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/login.html").permitAll()
                 .antMatchers("/admin/admin_index.html").permitAll()
 
-                .antMatchers("/index.html").permitAll();
+                .antMatchers("/index.html").permitAll()
+                        .anyRequest().access("@myServiceImpl.hasPermission(request, authentication)");
 
         http.headers().frameOptions().disable();
 
@@ -87,7 +88,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     private CorsConfigurationSource configure() {

@@ -7,12 +7,15 @@ import cn.jx.jjvu.ssm.service.InfoService;
 import cn.jx.jjvu.ssm.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
+@CrossOrigin
 @RequestMapping("/infoController")
 public class InfoController {
     @Autowired
@@ -22,7 +25,6 @@ public class InfoController {
 
 
     @RequestMapping("/addInfo")
-    @ResponseBody
     public Result addInfo(Sys_Info info) {
 
         Result result = new Result();
@@ -34,7 +36,6 @@ public class InfoController {
     }
 
     @RequestMapping("/manageInfo")
-    @ResponseBody
     public Result manageInfo() {
 
         Result result = new Result();
@@ -48,7 +49,6 @@ public class InfoController {
     }
 
     @RequestMapping("/delInfo")
-    @ResponseBody
     public Result delInfo(Integer id) {
 
         infoService.delInfoById(id);
@@ -60,7 +60,6 @@ public class InfoController {
     }
 
     @RequestMapping("/toEditInfo")
-    @ResponseBody
     public Result toEditInfo(Integer id) {
 
         Sys_Info info = infoService.findInfoById(id);
@@ -74,7 +73,6 @@ public class InfoController {
     }
 
     @RequestMapping("/editInfo")
-    @ResponseBody
     public Result editInfo(Sys_Info info) {
 
         infoService.editInfo(info);
